@@ -17,70 +17,73 @@ class AssetDetailScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: BlocBuilder<AssetPriceHistoryBloc, AssetPriceHistoryState>(
             builder: (context, state) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  if (state.selectedAsset != null) ...{
-                    SizedBox(height: 30),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(
-                              color: const Color(0xFF222222),
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    if (state.selectedAsset != null) ...{
+                      SizedBox(height: 30),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                color: const Color(0xFF222222),
+                              ),
+                            ),
+                            child: IconButton(
+                              splashRadius: 20,
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              icon: const Icon(Icons.arrow_back_ios_new),
                             ),
                           ),
-                          child: IconButton(
-                            splashRadius: 20,
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            icon: const Icon(Icons.arrow_back_ios_new),
+                          const SizedBox(
+                            width: 20,
                           ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Statistics',
-                          style: context.textTheme.headlineSmall,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    AssetDetailRow(
-                      asset: state.selectedAsset!,
-                    )
-                  },
-                  if (state.isSuccess && (state.priceHistory?.isNotEmpty ?? false)) ...{
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "Today's Chart",
-                      style: context.textTheme.headlineSmall,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      height: 400,
-                      margin: EdgeInsets.all(8),
-                      child: PriceChart(state: state),
-                    )
-                  } else ...{
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CircularProgressIndicator(),
+                          Text(
+                            'Statistics',
+                            style: context.textTheme.headlineSmall,
+                          ),
+                        ],
                       ),
-                    )
-                  }
-                ],
+                      SizedBox(
+                        height: 20,
+                      ),
+                      AssetDetailRow(
+                        asset: state.selectedAsset!,
+                      )
+                    },
+                    if (state.isSuccess &&
+                        (state.priceHistory?.isNotEmpty ?? false)) ...{
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "Last 24 Hrs Chart",
+                        style: context.textTheme.headlineSmall,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        height: 400,
+                        margin: EdgeInsets.all(8),
+                        child: PriceChart(state: state),
+                      )
+                    } else ...{
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    }
+                  ],
+                ),
               );
             },
           ),

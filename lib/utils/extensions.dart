@@ -20,8 +20,8 @@ extension ExtendedString on String {
 
 extension ExtendedDateTime on DateTime {
   int get startOfTheDayUtcEpoch {
-    final date = DateTime.now();
-    return DateTime(date.year, date.month, date.day).toUtc().millisecondsSinceEpoch;
+    final last24Hours = DateTime.now().subtract(Duration(hours: 24));
+    return last24Hours.toUtc().millisecondsSinceEpoch;
   }
 }
 
